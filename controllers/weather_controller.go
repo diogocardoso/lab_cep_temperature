@@ -17,11 +17,6 @@ func NewWeatherController(ws services.WeatherService) *WeatherController {
 
 func (wc *WeatherController) GetWeather(w http.ResponseWriter, r *http.Request) {
 	cep := r.URL.Query().Get("cep")
-	if len(cep) != 8 {
-		http.Error(w, "invalid zipcode", http.StatusUnprocessableEntity)
-		return
-	}
-
 	weather, err := wc.WeatherService.GetWeatherByCEP(cep)
 	if err != nil {
 		if err.Error() == "invalid zipcode" {
